@@ -1,5 +1,5 @@
 {
-  "name": "igt-library",
+  "name": "incremental-game-template",
   "version": "0.0.0-development",
   "description": "A collection of useful scripts to help you develop incremental games.",
   "main": "lib/index.js",
