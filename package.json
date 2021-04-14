@@ -1,0 +1,45 @@
+{
+  "name": "igt-library",
+  "version": "0.0.0-development",
+  "description": "A collection of useful scripts to help you develop incremental games.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/**/*"
+  ],
+  "scripts": {
+    "build": "ttsc -p tsconfig.build.json",
+    "test": "jest --silent",
+    "lint": "eslint --ext .js,.ts src",
+    "semantic-release": "semantic-release"
+  },
+  "homepage": "https://github.com/123ishaTest/igt-library",
+  "bugs": {
+    "email": "ishadijcks@gmail.com",
+    "url": "https://github.com/123ishaTest/igt-library/issues"
+  },
+  "author": "Isha",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.22",
+    "@types/lodash-es": "^4.17.4",
+    "@types/mousetrap": "^1.6.6",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "jest": "^26.6.3",
+    "semantic-release": "^17.4.2",
+    "ts-jest": "^26.5.4",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.2.3",
+    "typescript-transform-paths": "^2.2.3"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "mousetrap": "^1.6.5",
+    "strongly-typed-events": "^2.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/123ishaTest/igt-library.git"
+  }
+}

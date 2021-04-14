@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2020",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
