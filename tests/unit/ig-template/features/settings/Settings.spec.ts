@@ -18,7 +18,7 @@ describe('Settings', () => {
                 new SettingOption("Option 2", 2),
                 new SettingOption("Option 3", 3),
             ], 2)
-        )
+        );
     });
 
     test('adding same setting multiple times', () => {
@@ -60,6 +60,20 @@ describe('Settings', () => {
         expect(() => {
             settings.setSetting("undefined setting" as SettingId, 1);
         }).not.toThrow()
+    });
+
+    test('test change event', () => {
+        expect.assertions(3);
+
+        const setting = settings.getSetting(id);
+        setting?.onChange.subscribe(value => {
+            expect(value).toBe(2);
+        });
+
+        settings.setSetting(id, 2);
+
+        expect(setting).toBeDefined();
+        expect(setting?.value).toBe(2);
     });
 
     test('save empty', () => {
