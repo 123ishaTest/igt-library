@@ -8,8 +8,6 @@ import {DeveloperPanelTab} from "@/ig-template/developer-panel/DeveloperPanelTab
 import {FunctionField} from "@/ig-template/developer-panel/fields/FunctionField";
 import {DisplayField} from "@/ig-template/developer-panel/fields/DisplayField";
 import {ChoiceField} from "@/ig-template/developer-panel/fields/ChoiceField";
-import { IgtSaveEncoder } from "./tools/saving/IgtSaveEncoder";
-import { DefaultSaveEncoder } from "./tools/saving/DefaultSaveEncoder";
 
 export abstract class IgtGame {
     protected _tickInterval: NodeJS.Timeout | null = null;
@@ -32,7 +30,6 @@ export abstract class IgtGame {
      */
     protected readonly SAVE_INTERVAL = 30;
     protected _nextSave = this.SAVE_INTERVAL;
-    protected saveEncoder: IgtSaveEncoder = new DefaultSaveEncoder();
 
     protected gameSpeed = 1;
     protected _lastUpdate: number = 0;
@@ -216,7 +213,7 @@ export abstract class IgtGame {
         for (const feature of this.featureList) {
             res[feature.saveKey] = feature.save()
         }
-        LocalStorage.store(this.SAVE_KEY, res, this.saveEncoder)
+        LocalStorage.store(this.SAVE_KEY, res)
     }
 
     /**
@@ -230,7 +227,7 @@ export abstract class IgtGame {
      * Recursively load all registered features
      */
     public load(): void {
-        const saveData = LocalStorage.get(this.SAVE_KEY, this.saveEncoder);
+        const saveData = LocalStorage.get(this.SAVE_KEY)
         if (saveData == null) {
             return;
         }
