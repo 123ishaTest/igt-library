@@ -15,7 +15,7 @@ export abstract class Setting {
 
     requirement: Requirement;
 
-    protected _onChange = new SimpleEventDispatcher<SettingsValue[]>();
+    protected _onChange = new SimpleEventDispatcher<[SettingsValue, SettingsValue]>();
 
     protected constructor(id: SettingId, displayName: string, options: SettingOption[], defaultValue: SettingsValue, requirement: Requirement = new NoRequirement()) {
         this.id = id;
@@ -31,7 +31,7 @@ export abstract class Setting {
     /**
      * Emitted whenever the setting is changed.
      */
-    public get onChange(): ISimpleEvent<SettingsValue[]> {
+    public get onChange(): ISimpleEvent<[SettingsValue, SettingsValue]> {
         return this._onChange.asEvent();
     }
 
