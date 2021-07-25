@@ -15,7 +15,7 @@ export abstract class Setting {
 
     requirement: Requirement;
 
-    protected _onChange = new SimpleEventDispatcher<SettingsValue>();
+    protected _onChange = new SimpleEventDispatcher<SettingsValue[]>();
 
     protected constructor(id: SettingId, displayName: string, options: SettingOption[], defaultValue: SettingsValue, requirement: Requirement = new NoRequirement()) {
         this.id = id;
@@ -31,7 +31,7 @@ export abstract class Setting {
    /**
      * Emitted whenever the setting is changed.
      */
-    public get onChange(): ISimpleEvent<SettingsValue> {
+    public get onChange(): ISimpleEvent<SettingsValue[]> {
         return this._onChange.asEvent();
     }
 
@@ -40,8 +40,9 @@ export abstract class Setting {
             return;
         }
         if (this.validValue(value)) {
+            const prevValue = this.value;
             this.value = value;
-            this._onChange.dispatch(value);
+            this._onChange.dispatch([prevValue, value]);
         } else {
             console.warn(`${value} is not a valid value for setting ${this.id}. It could be that the option is not yet unlocked.`);
         }

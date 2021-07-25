@@ -63,17 +63,18 @@ describe('Settings', () => {
     });
 
     test('test change event', () => {
-        expect.assertions(3);
+        expect.assertions(4);
 
         const setting = settings.getSetting(id);
-        setting?.onChange.subscribe(value => {
-            expect(value).toBe(2);
+        setting?.onChange.subscribe(([prevValue, value]) => {
+            expect(prevValue).toBe(2);
+            expect(value).toBe(3);
         });
 
-        settings.setSetting(id, 2);
+        settings.setSetting(id, 3);
 
         expect(setting).toBeDefined();
-        expect(setting?.value).toBe(2);
+        expect(setting?.value).toBe(3);
     });
 
     test('save empty', () => {
