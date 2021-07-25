@@ -9,6 +9,7 @@ cache:
 
 install:
   - npm install
+  - npm install -g eslint
 
 
 script:
