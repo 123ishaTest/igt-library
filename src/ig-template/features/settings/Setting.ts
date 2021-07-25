@@ -28,7 +28,7 @@ export abstract class Setting {
         this.requirement = requirement;
     }
 
-   /**
+    /**
      * Emitted whenever the setting is changed.
      */
     public get onChange(): ISimpleEvent<SettingsValue[]> {
