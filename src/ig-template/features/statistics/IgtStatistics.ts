@@ -7,6 +7,7 @@ import {IgtFeature} from "@/ig-template/features/IgtFeature";
 import {AbstractStatistic} from "@/ig-template/features/statistics/AbstractStatistic";
 import {StatisticsSaveData} from "@/ig-template/features/statistics/StatisticsSaveData";
 import {ArrayStatistic} from "@/ig-template/features/statistics/ArrayStatistic";
+import {DictStatistic} from "@/ig-template/features/statistics/DictStatistic";
 
 export class IgtStatistics extends IgtFeature {
 
@@ -42,6 +43,19 @@ export class IgtStatistics extends IgtFeature {
         }
         const newValue = statistic.value[index] + amount;
         statistic.value.splice(index, 1, newValue);
+    }
+
+    incrementDictStatistic(id: StatisticId, key: string, amount = 1): void {
+        if (!this.hasStatistic(id)) {
+            console.warn(`Could not find statistic with id ${id}`)
+            return;
+        }
+        const statistic = this.list[id];
+        if (!(statistic instanceof DictStatistic)) {
+            console.warn(`Trying to treat ${id} as DictStatistic but it's not.`);
+            return;
+        }
+        statistic.value[key] += amount;
     }
 
     public getStatistic(id: StatisticId): AbstractStatistic | null {
