@@ -8,8 +8,9 @@ import {DeveloperPanelTab} from "@/ig-template/developer-panel/DeveloperPanelTab
 import {FunctionField} from "@/ig-template/developer-panel/fields/FunctionField";
 import {DisplayField} from "@/ig-template/developer-panel/fields/DisplayField";
 import {ChoiceField} from "@/ig-template/developer-panel/fields/ChoiceField";
-import { IgtSaveEncoder } from "./tools/saving/IgtSaveEncoder";
-import { DefaultSaveEncoder } from "./tools/saving/DefaultSaveEncoder";
+import {IgtSaveEncoder} from "./tools/saving/IgtSaveEncoder";
+import {DefaultSaveEncoder} from "./tools/saving/DefaultSaveEncoder";
+import {IgtSaveUpdate} from "./tools/saving/IgtSaveUpdate";
 
 export abstract class IgtGame {
     protected _tickInterval: NodeJS.Timeout | null = null;
@@ -36,6 +37,12 @@ export abstract class IgtGame {
 
     protected gameSpeed = 1;
     protected _lastUpdate: number = 0;
+
+    /**
+     * Game Version handling
+     */
+    protected version: string = '0.0.0';
+    protected saveUpdate?: IgtSaveUpdate;
 
     /**
      * Make sure this key is unique to your game.
@@ -216,6 +223,7 @@ export abstract class IgtGame {
         for (const feature of this.featureList) {
             res[feature.saveKey] = feature.save()
         }
+        res['version'] = this.version;
         LocalStorage.store(this.SAVE_KEY, res, this.saveEncoder)
     }
 
@@ -230,10 +238,16 @@ export abstract class IgtGame {
      * Recursively load all registered features
      */
     public load(): void {
-        const saveData = LocalStorage.get(this.SAVE_KEY, this.saveEncoder);
+        let saveData = LocalStorage.get(this.SAVE_KEY, this.saveEncoder);
         if (saveData == null) {
             return;
         }
+
+        // Applying version updates
+        if (this.saveUpdate) {
+            saveData = this.saveUpdate.applyUpdates(saveData);
+        }
+
         for (const feature of this.featureList) {
             const featureSaveData: Record<string, unknown> = saveData[feature.saveKey] as Record<string, unknown>;
             if (featureSaveData == null) {
