@@ -22,17 +22,17 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/lodash-es": "^4.17.4",
-    "@types/mousetrap": "^1.6.6",
-    "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "@typescript-eslint/parser": "^4.21.0",
+    "@types/lodash-es": "^4.17.5",
+    "@types/mousetrap": "^1.6.8",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "cz-conventional-changelog": "^3.3.0",
     "jest": "^27.2.4",
-    "semantic-release": "^17.4.2",
+    "semantic-release": "^18.0.0",
     "ts-jest": "^27.0.5",
     "ttypescript": "^1.5.12",
-    "typescript": "^4.2.3",
-    "typescript-transform-paths": "^2.2.3"
+    "typescript": "^4.4.3",
+    "typescript-transform-paths": "^3.3.1"
   },
   "dependencies": {
     "lodash-es": "^4.17.21",
