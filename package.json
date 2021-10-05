@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "ttsc -p tsconfig.build.json",
-    "test": "jest --silent",
+    "test": "jest --silent --env=jsdom",
     "lint": "eslint --ext .js,.ts src",
     "semantic-release": "semantic-release"
   },
