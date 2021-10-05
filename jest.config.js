@@ -10,7 +10,4 @@ module.exports = {
         "@/(.*)": "<rootDir>/src/$1",
         "^lodash-es$": "lodash"
     },
-    "modulePaths": [
-        "<rootDir>"
-    ],
 }
