@@ -54,3 +54,6 @@ export {
     DateHelper,
     ArrayBuilder,
 }
+
+// Mixins
+export * from '@/ig-template/mixins/';
