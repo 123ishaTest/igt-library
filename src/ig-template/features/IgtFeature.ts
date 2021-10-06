@@ -15,7 +15,7 @@ export abstract class IgtFeature implements Saveable {
      * Note that you should not assume other features exist already here
      * @param saveKey
      */
-    protected constructor(saveKey: string) {
+    public constructor(saveKey: string) {
         this.saveKey = saveKey;
     }
 
