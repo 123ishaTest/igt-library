@@ -156,6 +156,7 @@ export abstract class IgtGame {
             feature.start();
         }
 
+        this._nextSave = this.SAVE_INTERVAL;
         this._lastUpdate = new Date().getTime() / 1000;
         this._tickInterval = setInterval(() => this.update(), this.TICK_DURATION * 1000);
 
