@@ -31,8 +31,8 @@ export abstract class IgtGame {
      * How often the game should be saved
      */
     protected readonly SAVE_INTERVAL: number = 30;
-    protected _nextSave = this.SAVE_INTERVAL;
-    protected saveEncoder: IgtSaveEncoder = new DefaultSaveEncoder();
+    protected _nextSave: number;
+    protected saveEncoder: IgtSaveEncoder;
 
     protected gameSpeed: number = 1;
     protected _lastUpdate: number = 0;
@@ -45,6 +45,8 @@ export abstract class IgtGame {
 
     protected constructor() {
         this.state = GameState.Launching;
+        this._nextSave = this.SAVE_INTERVAL;
+        this.saveEncoder = new DefaultSaveEncoder();
     }
 
     public getDeveloperPanel(): DeveloperPanel {
