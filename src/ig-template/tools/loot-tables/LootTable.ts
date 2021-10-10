@@ -38,10 +38,10 @@ export class LootTable {
 
     public getLoot(n: number = 1): IgtLoot[] {
         const always = this.calculateAlwaysLoot();
-        const oneof = this.calculateOneOfLoot(n);
+        const oneOf = this.calculateOneOfLoot(n);
         const anyOf = this.calculateAnyOfLoot();
 
-        const total = always.concat(oneof).concat(anyOf);
+        const total = always.concat(oneOf).concat(anyOf);
 
         return this.simplifyLoot(total);
     }
