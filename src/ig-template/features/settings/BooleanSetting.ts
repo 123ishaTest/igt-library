@@ -17,6 +17,6 @@ export class BooleanSetting extends Setting {
     }
 
     public toggle(): void {
-        this.value = !this.value;
+        this.set(!this.value);
     }
 }
