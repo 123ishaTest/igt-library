@@ -1,5 +1,3 @@
-import {cloneDeep} from 'lodash-es';
-
 import {InventorySlot} from "@/ig-template/features/inventory/InventorySlot";
 import {ItemId} from "@/ig-template/features/items/ItemId";
 import {IgtFeature} from "@/ig-template/features/IgtFeature";
@@ -180,16 +178,22 @@ export class IgtInventory extends IgtFeature {
         return total;
     }
 
-    /**
-     * This method very inefficiently clones the inventory, and simulates adding the items see if they can be taken.
-     * It's also the only reason we're using lodash...
-     * TODO do this in a smart way.
+    /** 
+     * Returns if the inventory can lose the given amounts of items
      */
     canTakeItemAmounts(itemAmounts: ItemAmount[]): boolean {
-        const clonedInventory = cloneDeep(this);
-        for (const item of itemAmounts) {
-            const amountLeft = clonedInventory.gainItem(this._itemList.getItem(item.id), item.amount);
-            if (amountLeft !== 0) {
+        if (!itemAmounts.length) {
+            return false
+        }
+
+        const mergedItemAmounts: Record<ItemId, number> = {};
+        for (const itemAmount of itemAmounts) {
+            const { id, amount } = itemAmount;
+            const currentTotalAmount = (mergedItemAmounts[id] || 0) + amount;
+            mergedItemAmounts[id] = currentTotalAmount;
+
+            const itemsInInventory = this.getTotalAmount(id);
+            if (itemsInInventory < currentTotalAmount) {
                 return false;
             }
         }

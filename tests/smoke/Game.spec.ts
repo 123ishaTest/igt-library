@@ -8,7 +8,7 @@ import {IgtStatistics} from "@/ig-template/features/statistics/IgtStatistics";
 import {IgtAchievements} from "@/ig-template/features/achievements";
 import {IgtFeatures} from "@/ig-template/IgtFeatures";
 
-class DummyGame extends IgtGame {
+export class DummyGame extends IgtGame {
     features: IgtFeatures;
 
     constructor(features: IgtFeatures) {

@@ -8,6 +8,7 @@ module.exports = {
     testMatch: ["<rootDir>/tests/**/*.{ts, js}"],
     moduleNameMapper: {
         "@/(.*)": "<rootDir>/src/$1",
+        "@tests/(.*)": "<rootDir>/tests/$1",
         "^lodash-es$": "lodash"
     },
 }

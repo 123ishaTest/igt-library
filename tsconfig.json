@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@tests/*": ["tests/*"],
     },
 
     "plugins": [
