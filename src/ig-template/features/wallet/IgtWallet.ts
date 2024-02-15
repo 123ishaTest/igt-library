@@ -59,7 +59,7 @@ export class IgtWallet extends IgtFeature {
     /**
      * Return true if all currencies are valid and the player has the specified amount.
      */
-    hasCurrencies(costs: Currency[]): boolean {
+    public hasCurrencies(costs: Currency[]): boolean {
         for (const cost of costs) {
             if (!this.hasCurrency(cost)) {
                 return false;
