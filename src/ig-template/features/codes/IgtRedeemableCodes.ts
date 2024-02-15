@@ -52,7 +52,7 @@ export class IgtRedeemableCodes extends IgtFeature {
 
 
     load(data: RedeemableCodesSaveData): void {
-        if (!data?.list) {
+        if (!data?.list.length) {
             return;
         }
 

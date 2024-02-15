@@ -91,4 +91,48 @@ describe('Redeemable Codes', () => {
         expect(redeemedSecondTime).toBeTruthy();
     });
 
+    test('hash with empty string returns 0', () => {
+        // Arrange
+        const redeemableCodes = new IgtRedeemableCodes();
+
+        // Act
+        const hash = redeemableCodes.hash('');
+
+        // Assert
+        expect(hash).toBe(0);
+    });
+
+    test('load sets isRedeemed to true for matching code IDs', () => {
+        // Arrange
+        const redeemableCodes = new IgtRedeemableCodes();
+        const code1 = code
+        const code2 = new RedeemableCode(id, 'Second code', 65408136, () => {
+                // Empty
+            })
+        redeemableCodes.list = [code1, code2];
+
+        const data = {
+            list: [code1.id]
+        };
+
+        // Act
+        redeemableCodes.load(data);
+
+        // Assert
+        const codeList = redeemableCodes.list;
+        expect(codeList[0].isRedeemed).toBe(true);
+        expect(codeList[1].isRedeemed).toBe(false);
+    });
+
+    test('load returns nothing if no data is provided', () => {
+        // Arrange
+        const redeemableCodes = new IgtRedeemableCodes();
+        const emptySaveData = redeemableCodes.save();
+
+        // Act
+        redeemableCodes.load(emptySaveData);
+
+        // Assert
+        expect(redeemableCodes.list).toHaveLength(0);
+    });
 });

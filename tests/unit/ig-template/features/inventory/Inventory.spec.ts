@@ -4,7 +4,11 @@ import {ItemId} from "@/ig-template/features/items/ItemId";
 import {ItemType} from "@/ig-template/features/items/ItemType";
 import {AbstractConsumable} from "@/ig-template/features/items/AbstractConsumable";
 import {InventorySlot} from "@/ig-template/features/inventory/InventorySlot";
+import { IgtItemList } from "@/ig-template/features/items/IgtItemList";
+import { IgtFeatures } from "@/index";
+import _ from "lodash";
 
+jest.spyOn(console, 'warn').mockImplementation(() => { });
 
 export class ExampleItem extends AbstractItem {
     constructor(id: ItemId, maxStack: number) {
@@ -29,6 +33,24 @@ class ExampleConsumable extends AbstractConsumable {
     }
 }
 
+class ExampleItemList extends IgtItemList {
+
+    _itemList = new Map<ItemId, AbstractItem>();
+    length: number
+
+    constructor(items: AbstractItem[]) {
+        super('item-list');
+        items.forEach(item => {
+            this._itemList.set(item.id, item);
+        })
+        this.length = items.length;
+    }
+
+    getItem(id: ItemId): AbstractItem {
+        return this._itemList.get(id) as AbstractItem;
+    }
+}
+
 describe('Inventory', () => {
     const maxExampleStack = 5;
     const item1 = new ExampleItem('item-1' as ItemId, maxExampleStack);
@@ -37,6 +59,7 @@ describe('Inventory', () => {
 
     beforeEach(() => {
         consumable = new ExampleConsumable('consumable' as ItemId, maxExampleStack);
+        jest.resetAllMocks();
     })
 
     test('Inventory is empty after creation', () => {
@@ -99,7 +122,8 @@ describe('Inventory', () => {
 
         // Assert
         expect(inventory.getTotalAmount(item1.id)).toBe(10);
-
+        expect(inventory.getAmount(0)).toBe(5);
+        expect(inventory.getAmount(1)).toBe(5);
     });
 
     test('Drop stack', () => {
@@ -108,10 +132,14 @@ describe('Inventory', () => {
 
         // Act
         inventory.gainItem(item1, maxExampleStack * 2);
+        expect(inventory.getTotalAmount(item1.id)).toBe(10);
+        expect(inventory.getAmount(0)).toBe(5);
+        expect(inventory.getAmount(1)).toBe(5);
         inventory.dropStack(1);
 
         // Assert
         expect(inventory.getTotalAmount(item1.id)).toBe(5);
+        expect(inventory.getAmount(0)).toBe(5);
         expect(inventory.getAmount(1)).toBe(0);
     });
 
@@ -125,7 +153,9 @@ describe('Inventory', () => {
 
         // Assert
         expect(inventory.getTotalAmount(item1.id)).toBe(7);
-
+        expect(inventory.getAmount(0)).toBe(2);
+        expect(inventory.getAmount(1)).toBe(5);
+        // TODO: Add getIndexesWithItem() method and add it to loseItemAmount so that it can pull from the end of the list
     });
 
     test('Adding items does not exceed max stack count', () => {
@@ -222,4 +252,73 @@ describe('Inventory', () => {
         expect(inventory.isEmpty()).toBe(true);
         expect(consumable.isConsumed).toBe(true);
     });
-})
+
+    test('IgtInventory initializes with the correct itemList', () => {
+        // Arrange
+        const inventory: IgtInventory = new IgtInventory();
+        const listOfItems = [item1, item2];
+        const testFeature = new ExampleItemList(listOfItems);
+        const features: IgtFeatures = { itemList: testFeature };
+        // Act
+        inventory.initialize(features);
+
+        // Assert
+        listOfItems.forEach(item => {
+            expect(inventory._itemList.getItem(item.id)).toBe(item);
+        });
+        const listAsExampleList = inventory._itemList as ExampleItemList;
+        expect(listAsExampleList).toHaveLength(listOfItems.length);
+    });
+
+    test('IgtInventory fails to initialize without itemList', () => {
+        // Arrange
+        const inventory: IgtInventory = new IgtInventory();
+        const features: IgtFeatures = {};
+        // Act
+        const initialize = () => inventory.initialize(features);
+
+        // Assert
+        expect(initialize).toThrow("IgtInventory depends on IgtItemList, make sure it's instantiated and added to IgtFeatures");
+    });
+
+    test('interactIndeces does nothing if indices are the same', () => {
+        // Arrange
+        const inventory: IgtInventory = new IgtInventory(2);
+        inventory.gainItem(item1);
+        inventory.gainItem(item2);
+
+        // Act
+        inventory.interactIndices(0, 0);
+
+        // Assert
+        expect(inventory.getIndexOfItem(item1.id)).toBe(0);
+        expect(inventory.getIndexOfItem(item2.id)).toBe(1);
+    });
+
+    test('interactIndeces does nothing if itemFrom is empty', () => {
+        // Arrange
+        const inventory: IgtInventory = new IgtInventory(2);
+        inventory.gainItem(item1);
+
+        // Act
+        inventory.interactIndices(1, 0);
+
+        // Assert
+        expect(console.warn).toHaveBeenCalledWith("Cannot interact with empty item");
+        expect(inventory.getIndexOfItem(item1.id)).toBe(0);
+    });
+
+    test('mergeItems throws error if items are not the same', () => {
+        // Arrange
+        const inventory: IgtInventory = new IgtInventory(2);
+        inventory.gainItem(item1);
+        inventory.gainItem(item2);
+        const slots = inventory.slots;
+
+        // Act
+        const merge = () => inventory.mergeItems(slots[0], slots[1]);
+
+        // Assert
+        expect(merge).toThrow(`Cannot merge items of types ${slots[0].item.id} and ${slots[1].item.id}`);
+    });
+});
