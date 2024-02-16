@@ -18,7 +18,7 @@ export class InventoryItemEntry extends IgtLootEntry {
 
     getLoot(): InventoryItemLoot[] {
         if (!this.canGet()) {
-            console.warn(`Tried to get loot ${this.item}, but the requirements were not met`);
+            console.warn(`Tried to get loot ${this.item.id}, but the requirements were not met`, this.item);
             return [];
         }
         return [new InventoryItemLoot(this.item, this.amount.getRandomBetween(), this._inventory)];

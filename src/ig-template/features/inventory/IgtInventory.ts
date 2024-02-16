@@ -80,11 +80,11 @@ export class IgtInventory extends IgtFeature {
         const item = inventoryItem.item;
 
         if (!(item instanceof AbstractConsumable)) {
-            console.warn(`Item ${item} is not a consumable`);
+            console.warn(`Item is not a consumable`, item);
             return false;
         }
         if (inventoryItem.amount < amount) {
-            console.warn(`Amount of ${inventoryItem} is not greater than ${amount}`);
+            console.warn(`Amount of ${inventoryItem.item.id} is not greater than ${amount}`, inventoryItem);
             return false;
         }
         if (!item.canConsume()) {
