@@ -26,8 +26,7 @@ export abstract class AbstractItem implements Saveable {
   // Save and load. Only needed if this item store additional data
   saveKey: string;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load(data: Record<string, unknown>): void {
+  load(_: Record<string, unknown>): void {
     // Empty
   }
 

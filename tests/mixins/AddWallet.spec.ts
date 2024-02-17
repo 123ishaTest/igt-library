@@ -12,7 +12,7 @@ class TestFeature extends AddWallet(IgtFeature) {
     super('save-key');
   }
 
-  load(data: SaveData): void {
+  load(_: SaveData): void {
     throw new Error('Method not implemented.');
   }
 

@@ -4,6 +4,6 @@ export { MultipleChoiceSetting } from '@/ig-template/features/settings/MultipleC
 export { RangeSetting } from '@/ig-template/features/settings/RangeSetting';
 export { Setting } from '@/ig-template/features/settings/Setting';
 export { SettingOption } from '@/ig-template/features/settings/SettingOption';
-export { SettingSaveData } from '@/ig-template/features/settings/SettingSaveData';
-export { SettingsSaveData } from '@/ig-template/features/settings/SettingsSaveData';
-export { SettingsValue } from '@/ig-template/features/settings/SettingsValueType';
+export type { SettingSaveData } from '@/ig-template/features/settings/SettingSaveData';
+export type { SettingsSaveData } from '@/ig-template/features/settings/SettingsSaveData';
+export type { SettingsValue } from '@/ig-template/features/settings/SettingsValueType';

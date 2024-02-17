@@ -4,4 +4,4 @@ export { AbstractItem } from '@/ig-template/features/items/AbstractItem';
 export { EmptyItem } from '@/ig-template/features/items/EmptyItem';
 export { IgtItemList } from '@/ig-template/features/items/IgtItemList';
 export { ItemAmount } from '@/ig-template/features/items/ItemAmount';
-export { ItemType } from '@/ig-template/features/items/ItemType';
+export type { ItemType } from '@/ig-template/features/items/ItemType';

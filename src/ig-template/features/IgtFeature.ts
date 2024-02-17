@@ -29,7 +29,7 @@ export abstract class IgtFeature implements Saveable {
    * Called after all features are created.
    * This is where your main configuration takes place.
    */
-  initialize(features: IgtFeatures): void {
+  initialize(_: IgtFeatures): void {
     // This method intentionally left blank
   }
 
@@ -58,7 +58,7 @@ export abstract class IgtFeature implements Saveable {
    * Override in features if specified
    * IMPORTANT: Make sure to always return 1 as the default
    */
-  getTotalCurrencyMultiplier(type: CurrencyType): number {
+  getTotalCurrencyMultiplier(_: CurrencyType): number {
     return 1;
   }
 
@@ -66,7 +66,7 @@ export abstract class IgtFeature implements Saveable {
    * Gets called every Game.TICK_DURATION
    * @param delta time since last update
    */
-  update(delta: number): void {
+  update(_: number): void {
     // Override in subclass if needed
   }
 
