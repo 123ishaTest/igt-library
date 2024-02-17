@@ -1,9 +1,9 @@
-import {DeveloperPanelTab} from "@/ig-template/developer-panel/DeveloperPanelTab";
+import { DeveloperPanelTab } from '@/ig-template/developer-panel/DeveloperPanelTab';
 
 export class DeveloperPanel {
-    tabs: DeveloperPanelTab[];
+  tabs: DeveloperPanelTab[];
 
-    constructor(tabs: DeveloperPanelTab[]) {
-        this.tabs = tabs;
-    }
+  constructor(tabs: DeveloperPanelTab[]) {
+    this.tabs = tabs;
+  }
 }

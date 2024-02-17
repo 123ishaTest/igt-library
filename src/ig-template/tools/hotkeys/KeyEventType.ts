@@ -1,5 +1,5 @@
 export enum KeyEventType {
-    KeyPress = "keypress",
-    KeyDown = "keydown",
-    KeyUp = "keyup"
+  KeyPress = 'keypress',
+  KeyDown = 'keydown',
+  KeyUp = 'keyup',
 }

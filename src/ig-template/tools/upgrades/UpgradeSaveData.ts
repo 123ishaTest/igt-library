@@ -1,4 +1,4 @@
 export interface UpgradeSaveData {
-    id: string;
-    level: number;
+  id: string;
+  level: number;
 }
