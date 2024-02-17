@@ -1,22 +1,21 @@
-import {Requirement} from "@/ig-template/tools/requirements/Requirement";
-import {NumberStatistic} from "@/ig-template/features/statistics/NumberStatistic";
+import { Requirement } from '@/ig-template/tools/requirements/Requirement';
+import { NumberStatistic } from '@/ig-template/features/statistics/NumberStatistic';
 
 export class NumberStatisticRequirement extends Requirement {
-    statistic: NumberStatistic;
-    targetValue: number;
+  statistic: NumberStatistic;
+  targetValue: number;
 
+  constructor(statistic: NumberStatistic, targetValue: number) {
+    super();
+    this.statistic = statistic;
+    this.targetValue = targetValue;
+  }
 
-    constructor(statistic: NumberStatistic, targetValue: number) {
-        super();
-        this.statistic = statistic;
-        this.targetValue = targetValue;
-    }
+  get actualValue(): number {
+    return this.statistic.value;
+  }
 
-    get actualValue(): number {
-        return this.statistic.value;
-    }
-
-    get hint(): string {
-        return `The statistic ${this.statistic.description} needs to be at least ${this.targetValue}`;
-    }
+  get hint(): string {
+    return `The statistic ${this.statistic.description} needs to be at least ${this.targetValue}`;
+  }
 }

@@ -1,12 +1,11 @@
-import {AbstractStatistic} from "@/ig-template/features/statistics/AbstractStatistic";
-import {StatisticId} from "@/ig-template/features/statistics/StatisticId";
+import { AbstractStatistic } from '@/ig-template/features/statistics/AbstractStatistic';
+import { StatisticId } from '@/ig-template/features/statistics/StatisticId';
 
 export class DictStatistic extends AbstractStatistic {
-    value: {[key: string]: number};
+  value: { [key: string]: number };
 
-    constructor(id: StatisticId, description: string, value: {[key: string]: number}) {
-        super(id, description);
-        this.value = value;
-    }
-
+  constructor(id: StatisticId, description: string, value: { [key: string]: number }) {
+    super(id, description);
+    this.value = value;
+  }
 }

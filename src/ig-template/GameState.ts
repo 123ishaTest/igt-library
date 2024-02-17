@@ -5,8 +5,8 @@
  * Stopped: Gameplay is stopped, to continue you need to start
  */
 export enum GameState {
-    Launching = "Launching",
-    Playing = "Playing",
-    Paused = "Paused",
-    Stopped = "Stopped",
+  Launching = 'Launching',
+  Playing = 'Playing',
+  Paused = 'Paused',
+  Stopped = 'Stopped',
 }

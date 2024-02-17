@@ -1,2 +1,1 @@
-export interface SaveData {
-}
+export interface SaveData {}
