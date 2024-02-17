@@ -1,4 +1,4 @@
 export interface KeyBindDescription {
-    keys: string;
-    description: string;
+  keys: string;
+  description: string;
 }

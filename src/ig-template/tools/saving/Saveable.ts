@@ -1,9 +1,9 @@
-import {SaveData} from "./SaveData";
+import { SaveData } from './SaveData';
 
 export interface Saveable {
-    saveKey: string;
+  saveKey: string;
 
-    save(): SaveData;
+  save(): SaveData;
 
-    load(data: SaveData): void;
+  load(data: SaveData): void;
 }

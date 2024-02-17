@@ -1,7 +1,7 @@
-import {ItemId} from "@/ig-template/features/items/ItemId";
+import { ItemId } from '@/ig-template/features/items/ItemId';
 
 export interface InventorySlotSaveData {
-    id: ItemId;
-    amount: number;
-    data: Record<string, unknown>;
+  id: ItemId;
+  amount: number;
+  data: Record<string, unknown>;
 }

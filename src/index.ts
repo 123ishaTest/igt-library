@@ -1,25 +1,18 @@
 // Game
-import {IgtFeatures} from '@/ig-template/IgtFeatures';
-import {IgtGame} from '@/ig-template/IgtGame';
-import {GameState} from '@/ig-template/GameState';
+import { IgtFeatures } from '@/ig-template/IgtFeatures';
+import { IgtGame } from '@/ig-template/IgtGame';
+import { GameState } from '@/ig-template/GameState';
 
-export {
-    IgtGame,
-    IgtFeatures,
-    GameState,
-}
+export { IgtGame, type IgtFeatures, GameState };
 
 // Developer panel
 export * from '@/ig-template/developer-panel';
 
 // Features
-import {IgtFeature} from '@/ig-template/features/IgtFeature';
-import {IgtUpgradesFeature} from '@/ig-template/features/IgtUpgradesFeature';
+import { IgtFeature } from '@/ig-template/features/IgtFeature';
+import { IgtUpgradesFeature } from '@/ig-template/features/IgtUpgradesFeature';
 
-export {
-    IgtFeature,
-    IgtUpgradesFeature,
-}
+export { IgtFeature, IgtUpgradesFeature };
 
 export * from '@/ig-template/features/achievements';
 export * from '@/ig-template/features/codes';
@@ -43,17 +36,12 @@ export * from '@/ig-template/tools/requirements';
 export * from '@/ig-template/tools/saving';
 export * from '@/ig-template/tools/upgrades';
 
-
 // Util
-import {EnumHelper} from "@/ig-template/util/EnumHelper";
-import {DateHelper} from "@/ig-template/util/DateHelper";
-import {ArrayBuilder} from "@/ig-template/util/ArrayBuilder";
+import { EnumHelper } from '@/ig-template/util/EnumHelper';
+import { DateHelper } from '@/ig-template/util/DateHelper';
+import { ArrayBuilder } from '@/ig-template/util/ArrayBuilder';
 
-export {
-    EnumHelper,
-    DateHelper,
-    ArrayBuilder,
-}
+export { EnumHelper, DateHelper, ArrayBuilder };
 
 // Mixins
 export * from '@/ig-template/mixins/';
