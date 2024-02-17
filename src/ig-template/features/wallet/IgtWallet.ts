@@ -48,9 +48,18 @@ export class IgtWallet extends IgtFeature {
   }
 
   /**
+   * Gain the currency amount from the specified currencies.
+   */
+  public gainMultipleCurrencies(currencies: Currency[]): void {
+    for (const currency of currencies) {
+      this.gainCurrency(currency);
+    }
+  }
+
+  /**
    * Return true if all currencies are valid and the player has the specified amount.
    */
-  hasCurrencies(costs: Currency[]): boolean {
+  public hasCurrencies(costs: Currency[]): boolean {
     for (const cost of costs) {
       if (!this.hasCurrency(cost)) {
         return false;
