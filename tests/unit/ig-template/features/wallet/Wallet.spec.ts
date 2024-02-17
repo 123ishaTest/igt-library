@@ -56,30 +56,30 @@ describe('Wallet', () => {
     moneyWallet.gainCurrency(new Currency(1, money));
     const actualMoney = moneyWallet.getAmount(money);
 
-        // Assert
-        expect(actualMoney).toBe(1);
-    });
+    // Assert
+    expect(actualMoney).toBe(1);
+  });
 
-    test('gain multiple of the same currencies', () => {
-        // Act
-        moneyWallet.gainMultipleCurrencies([new Currency(1, money), new Currency(2, money)]);
-        const actualMoney = moneyWallet.getAmount(money);
+  test('gain multiple of the same currencies', () => {
+    // Act
+    moneyWallet.gainMultipleCurrencies([new Currency(1, money), new Currency(2, money)]);
+    const actualMoney = moneyWallet.getAmount(money);
 
-        // Assert
-        expect(actualMoney).toBe(3);
-    });
+    // Assert
+    expect(actualMoney).toBe(3);
+  });
 
-    test('gain multiple of different currencies', () => {
-        // Act
-        const wallet = new IgtWallet([money, secondary]);
-        wallet.gainMultipleCurrencies([new Currency(1, money), new Currency(2, secondary)]);
-        const actualMoney = wallet.getAmount(money);
-        const actualSecondary = wallet.getAmount(secondary);
+  test('gain multiple of different currencies', () => {
+    // Act
+    const wallet = new IgtWallet([money, secondary]);
+    wallet.gainMultipleCurrencies([new Currency(1, money), new Currency(2, secondary)]);
+    const actualMoney = wallet.getAmount(money);
+    const actualSecondary = wallet.getAmount(secondary);
 
-        // Assert
-        expect(actualMoney).toBe(1);
-        expect(actualSecondary).toBe(2);
-    });
+    // Assert
+    expect(actualMoney).toBe(1);
+    expect(actualSecondary).toBe(2);
+  });
 
   test('gaining negative amount not possible', () => {
     // Act
