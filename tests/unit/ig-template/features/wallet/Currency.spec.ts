@@ -1,20 +1,19 @@
-import {Currency} from "@/ig-template/features/wallet/Currency";
-import {CurrencyType} from "@/ig-template/features/wallet/CurrencyType";
+import { describe, expect, test } from 'vitest';
 
+import { Currency } from '@/ig-template/features/wallet/Currency';
+import { CurrencyType } from '@/ig-template/features/wallet/CurrencyType';
 
 describe('Currency', () => {
+  const money: CurrencyType = 'money';
 
-    const money: CurrencyType = 'money'
+  test('constructor', () => {
+    // Arrange
+    const currency = new Currency(3, money);
 
-    test('constructor', () => {
-        // Arrange
-        const currency = new Currency(3, money);
+    // Act
 
-        // Act
-
-        // Assert
-        expect(currency.amount).toBe(3);
-        expect(currency.type).toBe(money);
-    });
-
+    // Assert
+    expect(currency.amount).toBe(3);
+    expect(currency.type).toBe(money);
+  });
 });

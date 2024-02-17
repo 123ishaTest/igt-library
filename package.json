@@ -1,18 +1,7 @@
 {
-  "name": "incremental-game-template",
-  "version": "0.0.0-development",
-  "description": "A collection of useful scripts to help you develop incremental games.",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "files": [
-    "/**/*"
-  ],
-  "scripts": {
-    "build": "ttsc -p tsconfig.build.json",
-    "test": "jest --silent --env=jsdom",
-    "lint": "eslint --ext .js,.ts src",
-    "semantic-release": "semantic-release"
-  },
+  "name": "@123ishatest/igt-library",
+  "version": "1.0.0",
+  "description": "A collection of useful scripts to help you develop incremental games",
   "homepage": "https://github.com/123ishaTest/igt-library",
   "bugs": {
     "email": "ishadijcks@gmail.com",
@@ -20,31 +9,38 @@
   },
   "author": "Isha",
   "license": "MIT",
-  "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "@types/mousetrap": "^1.6.8",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
-    "jest": "^27.2.4",
-    "semantic-release": "^18.0.0",
-    "ts-jest": "^27.0.5",
-    "ttypescript": "^1.5.12",
-    "typescript": "^4.4.3",
-    "typescript-transform-paths": "^3.3.1"
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "deploy": "npm run build && npx changeset publish",
+    "preview": "vite preview",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "vitest"
   },
   "dependencies": {
     "mousetrap": "^1.6.5",
-    "strongly-typed-events": "^2.1.5"
+    "strongly-typed-events": "^3.0.11"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/123ishaTest/igt-library.git"
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@types/mousetrap": "^1.6.15",
+    "@types/node": "^20.11.19",
+    "jsdom": "^24.0.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.0",
+    "vite-plugin-dts": "^3.7.2",
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.3.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  }
+  "files": [
+    "/dist",
+    "README.md",
+    "package.json"
+  ]
 }
