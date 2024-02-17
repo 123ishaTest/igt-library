@@ -1,5 +1,3 @@
-import { cloneDeep } from 'lodash-es';
-
 import { InventorySlot } from '@/ig-template/features/inventory/InventorySlot';
 import { ItemId } from '@/ig-template/features/items/ItemId';
 import { IgtFeature } from '@/ig-template/features/IgtFeature';
@@ -177,27 +175,27 @@ export class IgtInventory extends IgtFeature {
     return total;
   }
 
-    /** 
-     * Returns if the inventory can lose the given amounts of items
-     */
-    canTakeItemAmounts(itemAmounts: ItemAmount[]): boolean {
-        if (!itemAmounts.length) {
-            return false
-        }
-
-        const mergedItemAmounts: Record<ItemId, number> = {};
-        for (const itemAmount of itemAmounts) {
-            const { id, amount } = itemAmount;
-            const currentTotalAmount = (mergedItemAmounts[id] || 0) + amount;
-            mergedItemAmounts[id] = currentTotalAmount;
-
-            const itemsInInventory = this.getTotalAmount(id);
-            if (itemsInInventory < currentTotalAmount) {
-                return false;
-            }
-        }
-        return true;
+  /**
+   * Returns if the inventory can lose the given amounts of items
+   */
+  canTakeItemAmounts(itemAmounts: ItemAmount[]): boolean {
+    if (!itemAmounts.length) {
+      return false;
     }
+
+    const mergedItemAmounts: Record<ItemId, number> = {};
+    for (const itemAmount of itemAmounts) {
+      const { id, amount } = itemAmount;
+      const currentTotalAmount = (mergedItemAmounts[id] || 0) + amount;
+      mergedItemAmounts[id] = currentTotalAmount;
+
+      const itemsInInventory = this.getTotalAmount(id);
+      if (itemsInInventory < currentTotalAmount) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   hasItemAmounts(amounts: ItemAmount[]): boolean {
     for (const amount of amounts) {

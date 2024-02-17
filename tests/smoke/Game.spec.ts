@@ -11,7 +11,7 @@ import { IgtAchievements } from '@/ig-template/features/achievements';
 import { IgtFeatures } from '@/ig-template/IgtFeatures';
 
 export class DummyGame extends IgtGame {
-    features: IgtFeatures;
+  features: IgtFeatures;
 
   constructor(features: IgtFeatures) {
     super();
