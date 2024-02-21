@@ -45,10 +45,10 @@ describe('Game launch smoke test', () => {
 
   test('smoke test', () => {
     let tickCount = 0
-    game.onTick.subscribe((s: IgtGame, a: number) => {
+    game.onTick.subscribe((_sender: IgtGame, event: number) => {
       tickCount++;
-      console.log('Tick', a)
-      expect(a).toEqual(game.tickDuration);
+      console.log('Tick', event)
+      expect(event).toEqual(game.tickDuration);
     });
 
     expect(() => {
