@@ -20,6 +20,10 @@ class DummyGame extends IgtGame {
 
   protected readonly SAVE_KEY: string = 'dummy';
   protected readonly TICK_DURATION: number = 0.05;
+
+  public get tickDuration(): number {
+    return this.TICK_DURATION;
+  }
 }
 
 /**
@@ -36,15 +40,27 @@ describe('Game launch smoke test', () => {
     statistics: new IgtStatistics(),
     achievements: new IgtAchievements(),
   });
+
+  const ticks: number = 100;
+
   test('smoke test', () => {
+    let tickCount = 0
+    game.onTick.subscribe((s: IgtGame, a: number) => {
+      tickCount++;
+      console.log('Tick', a)
+      expect(a).toEqual(game.tickDuration);
+    });
+
     expect(() => {
       game.initialize();
       game.load();
       game.start();
 
-      for (let i = 0; i < 100; i++) {
-        game.forceUpdate(0.5);
+      for (let i = 0; i < ticks; i++) {
+        game.forceUpdate(game.tickDuration);
       }
+
+      expect(tickCount).toBe(ticks);
     }).not.toThrow();
   });
 });

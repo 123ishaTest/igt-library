@@ -10,6 +10,7 @@ import { DisplayField } from '@/ig-template/developer-panel/fields/DisplayField'
 import { ChoiceField } from '@/ig-template/developer-panel/fields/ChoiceField';
 import { IgtSaveEncoder } from '@/ig-template/tools/saving';
 import { DefaultSaveEncoder } from '@/ig-template/tools/saving/DefaultSaveEncoder';
+import { EventDispatcher, IEvent } from 'strongly-typed-events';
 
 export abstract class IgtGame {
   protected _tickInterval: NodeJS.Timeout | null = null;
@@ -26,6 +27,8 @@ export abstract class IgtGame {
    * 0.05 is usually good enough at 20 ticks/s
    */
   protected abstract readonly TICK_DURATION: number;
+
+  protected _onTick = new EventDispatcher<IgtGame, number>();
 
   /**
    * How often the game should be saved
@@ -96,26 +99,21 @@ export abstract class IgtGame {
   }
 
   /**
-   * Force update all features for testing purposes
+   * For testing purposes:
+   * Force updates all features
+   * Sends the onTick event
    */
   public forceUpdate(delta: number): void {
     for (const feature of this.featureList) {
       feature.update(delta);
     }
+    this._onTick.dispatch(this, delta);
   }
 
   /**
    * Update all features
    */
-  public update(): void {
-    const now = new Date().getTime() / 1000;
-    const timeDifference = Math.max(0, now - this._lastUpdate);
-
-    if (this.state != GameState.Playing) {
-      return;
-    }
-
-    const delta = timeDifference * this.gameSpeed;
+  public update(now: number, delta: number): void {
     for (const feature of this.featureList) {
       feature.update(delta);
     }
@@ -146,6 +144,38 @@ export abstract class IgtGame {
   }
 
   /**
+   * Is called every TICK_DURATION seconds
+   * Manages the game loop, calling update() and sends the tick event
+   */
+  public tick(): void {
+    if (this.state != GameState.Playing) return;
+    const now = new Date().getTime() / 1000;
+    const timeDifference = Math.max(0, now - this._lastUpdate);
+    const delta = timeDifference * this.gameSpeed;
+
+    this.update(now, delta);
+    this._onTick.dispatch(this, delta);
+  }
+
+  /**
+   * Emitted whenever the game ticks
+   * @returns the onTick event
+   */
+  public get onTick(): IEvent<IgtGame, number> {
+    return this._onTick.asEvent();
+  }
+
+  /**
+   * Start the main update loop by calling tick() every TICK_DURATION seconds
+   */
+  public startTickInterval(): void {
+    if (this._tickInterval) {
+      clearInterval(this._tickInterval);
+    }
+    this._tickInterval = setInterval(() => this.tick(), this.TICK_DURATION * 1000);
+  }
+
+  /**
    * Start the main update loop
    */
   public start(): void {
@@ -160,7 +190,7 @@ export abstract class IgtGame {
 
     this._nextSave = this.SAVE_INTERVAL;
     this._lastUpdate = new Date().getTime() / 1000;
-    this._tickInterval = setInterval(() => this.update(), this.TICK_DURATION * 1000);
+    this.startTickInterval();
 
     this.state = GameState.Playing;
     console.debug('Game Started');
@@ -186,7 +216,7 @@ export abstract class IgtGame {
     }
 
     this._lastUpdate = new Date().getTime() / 1000;
-    this._tickInterval = setInterval(() => this.update(), this.TICK_DURATION * 1000);
+    this.startTickInterval();
 
     this.state = GameState.Playing;
     console.debug('Game Resumed');
