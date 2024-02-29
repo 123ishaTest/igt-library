@@ -10,7 +10,7 @@ import { DisplayField } from '@/ig-template/developer-panel/fields/DisplayField'
 import { ChoiceField } from '@/ig-template/developer-panel/fields/ChoiceField';
 import { IgtSaveEncoder } from '@/ig-template/tools/saving';
 import { DefaultSaveEncoder } from '@/ig-template/tools/saving/DefaultSaveEncoder';
-import { EventDispatcher, IEvent } from 'strongly-typed-events';
+import { SimpleEventDispatcher, ISimpleEvent } from 'strongly-typed-events';
 
 export abstract class IgtGame {
   protected _tickInterval: NodeJS.Timeout | null = null;
@@ -28,7 +28,7 @@ export abstract class IgtGame {
    */
   protected abstract readonly TICK_DURATION: number;
 
-  protected _onTick = new EventDispatcher<IgtGame, number>();
+  protected _onTick = new SimpleEventDispatcher<number>();
 
   /**
    * How often the game should be saved
@@ -107,7 +107,7 @@ export abstract class IgtGame {
     for (const feature of this.featureList) {
       feature.update(delta);
     }
-    this._onTick.dispatch(this, delta);
+    this._onTick.dispatch(delta);
   }
 
   /**
@@ -154,14 +154,14 @@ export abstract class IgtGame {
     const delta = timeDifference * this.gameSpeed;
 
     this.update(now, delta);
-    this._onTick.dispatch(this, delta);
+    this._onTick.dispatch(delta);
   }
 
   /**
    * Emitted whenever the game ticks
    * @returns the onTick event
    */
-  public get onTick(): IEvent<IgtGame, number> {
+  public get onTick(): ISimpleEvent<number> {
     return this._onTick.asEvent();
   }
 

@@ -51,7 +51,7 @@ describe('Game launch smoke test', () => {
    */
   test('smoke test', () => {
     let tickCount = 0;
-    const unsub = game.onTick.sub((_sender: IgtGame, event: number) => {
+    const unsub = game.onTick.sub((event: number) => {
       tickCount++;
       expect(event).toEqual(game.tickDuration);
     });
