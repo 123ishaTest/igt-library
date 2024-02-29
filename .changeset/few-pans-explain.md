@@ -1,5 +1,5 @@
 ---
-"@123ishatest/igt-library": minor
+'@123ishatest/igt-library': minor
 ---
 
 Add onTick event to game
