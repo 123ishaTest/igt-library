@@ -103,7 +103,7 @@ export abstract class IgtGame {
    * Force updates all features
    * Sends the onTick event
    */
-  public forceUpdate(delta: number): void {
+  public fakeTick(delta: number): void {
     for (const feature of this.featureList) {
       feature.update(delta);
     }

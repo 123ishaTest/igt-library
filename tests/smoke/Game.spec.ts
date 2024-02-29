@@ -62,7 +62,7 @@ describe('Game launch smoke test', () => {
       game.start();
 
       for (let i = 0; i < ticks; i++) {
-        game.forceUpdate(game.tickDuration);
+        game.fakeTick(game.tickDuration);
       }
 
       expect(tickCount).toBe(ticks);
