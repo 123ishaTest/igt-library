@@ -6,6 +6,9 @@ import { ItemId } from '@/ig-template/features/items/ItemId';
 import { ItemType } from '@/ig-template/features/items/ItemType';
 import { AbstractConsumable } from '@/ig-template/features/items/AbstractConsumable';
 import { InventorySlot } from '@/ig-template/features/inventory/InventorySlot';
+import { ItemAmount } from '@/ig-template/features/items/ItemAmount';
+import { DummyGame } from '@tests/smoke/Game.spec';
+import { IgtItemList } from '@/ig-template/features/items/IgtItemList';
 
 export class ExampleItem extends AbstractItem {
   constructor(id: ItemId, maxStack: number) {
@@ -215,5 +218,155 @@ describe('Inventory', () => {
     // Assert
     expect(inventory.isEmpty()).toBe(true);
     expect(consumable.isConsumed).toBe(true);
+  });
+
+  describe('canTakeItemAmounts', () => {
+    class TestItemList extends IgtItemList {
+      _itemList = new Map<ItemId, AbstractItem>();
+
+      constructor(items: AbstractItem[]) {
+        super('item-list');
+        items.forEach((item) => {
+          this._itemList.set(item.id, item);
+        });
+      }
+
+      getItem(id: ItemId): AbstractItem {
+        return this._itemList.get(id) as AbstractItem;
+      }
+    }
+
+    let inventory: IgtInventory;
+    const aSingleItem = (id: string) => new ItemAmount(id, 1);
+    const fiveItems = (id: string) => new ItemAmount(id, 5);
+    const itemWithHigherStack = (id: string) => new ExampleItem(id, 6);
+    let testGame: DummyGame;
+
+    beforeEach(() => {
+      inventory = new IgtInventory(1);
+      testGame = new DummyGame({
+        itemList: new TestItemList([item1]),
+        inventory: inventory,
+      });
+      testGame.initialize();
+    });
+
+    test('returns true if there are enough items', () => {
+      // Act
+      inventory.gainItem(item1, 4);
+      const canTake = inventory.canTakeItemAmounts([aSingleItem(item1.id)]);
+
+      // Assert
+      expect(canTake).toBe(true);
+    });
+
+    test('returns false if there are not enough items', () => {
+      // Act
+      inventory.gainItem(item1, 4);
+      const canTake = inventory.canTakeItemAmounts([fiveItems(item1.id)]);
+
+      // Assert
+      expect(canTake).toBe(false);
+    });
+
+    test('returns true if there are exactly enough items', () => {
+      // Act
+      inventory.gainItem(item1, 5);
+      const canTake = inventory.canTakeItemAmounts([fiveItems(item1.id)]);
+
+      // Assert
+      expect(canTake).toBe(true);
+    });
+
+    test('returns false if there are no items to start with', () => {
+      expect(inventory.isEmpty()).toBe(true);
+
+      // Act
+      const canTake = inventory.canTakeItemAmounts([aSingleItem(item1.id)]);
+
+      // Assert
+      expect(canTake).toBe(false);
+    });
+
+    test('returns false if there are no items to take passed in', () => {
+      // Act
+      inventory.gainItem(item1, 4);
+      const emptyItemAmounts: ItemAmount[] = [];
+      const canTake = inventory.canTakeItemAmounts(emptyItemAmounts);
+
+      // Assert
+      expect(canTake).toBe(false);
+    });
+
+    describe('handles multiple items', () => {
+      beforeEach(() => {
+        inventory = new IgtInventory(2);
+        testGame = new DummyGame({
+          itemList: new TestItemList([item1]),
+          inventory: inventory,
+        });
+        testGame.initialize();
+      });
+
+      test('that are the same, returning true if there are enough items', () => {
+        // Act
+        inventory.gainItem(item1, 4);
+        const item = aSingleItem(item1.id);
+        const canTake = inventory.canTakeItemAmounts([item, item]);
+
+        // Assert
+        expect(canTake).toBe(true);
+      });
+
+      test('that are the same, returning false if there are not enough items', () => {
+        // Act
+        inventory.gainItem(item1, 4);
+        const canTake = inventory.canTakeItemAmounts([aSingleItem(item1.id), fiveItems(item1.id)]);
+
+        // Assert
+        expect(canTake).toBe(false);
+      });
+
+      test('that are the same, returning true if there are exactly enough items', () => {
+        // Act
+        const id = item1.id;
+        inventory.gainItem(itemWithHigherStack(id), 6);
+        const canTake = inventory.canTakeItemAmounts([aSingleItem(id), fiveItems(id)]);
+
+        // Assert
+        expect(canTake).toBe(true);
+      });
+
+      test('that are different, returning true if there are enough items', () => {
+        // Act
+        inventory.gainItem(item1, 4);
+        inventory.gainItem(item2, 2);
+        const canTake = inventory.canTakeItemAmounts([aSingleItem(item1.id), aSingleItem(item2.id)]);
+
+        // Assert
+        expect(canTake).toBe(true);
+      });
+
+      test('that are different, returning false if there are not enough items', () => {
+        // Act
+        inventory.gainItem(item1, 4);
+        inventory.gainItem(item2, 2);
+        const canTake = inventory.canTakeItemAmounts([aSingleItem(item1.id), fiveItems(item2.id)]);
+
+        // Assert
+        expect(canTake).toBe(false);
+      });
+
+      test('that are different, returning true if there are exactly enough items', () => {
+        // Act
+        inventory.gainItem(item1, 5);
+        inventory.gainItem(item2, 2);
+        const item = aSingleItem(item2.id);
+        const canTake = inventory.canTakeItemAmounts([fiveItems(item1.id), item, item]);
+
+        // Assert
+        expect(canTake).toBe(true);
+      });
+    });
   });
 });
